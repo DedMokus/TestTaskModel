@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Model predict preview</title>
+    <meta charset="utf-8" />
+</head>
+<body>
+    <div id="message"></div>
+     <p>
+        Input string with features, delimeter - ',': <br /> 
+        <input name="features" id="features" />
+    </p>
+    <button onclick="send()">Send</button>
+<script>
+    async function send(){
+ 
+        const features = document.getElementById("features").value;
+ 
+        const response = await fetch("/predict", {
+                method: "POST",
+                headers: { "Accept": "application/json", "Content-Type": "application/json" },
+                body: JSON.stringify({ 
+                    features: features,
+                })
+            });
+            if (response.ok) {
+                const data = await response.json();
+                document.getElementById("message").textContent = data.prediction;
+            }
+            else
+                console.log(response);
+    }
+</script>
+</body>
+</html>
